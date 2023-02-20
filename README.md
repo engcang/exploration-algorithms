@@ -1,23 +1,38 @@
-# exploration-algorithms
+# Exploration-algorithms
++ How to build, install and run open-source exploration algorithms
 
-### Open-source Exploration algorithms
-#### Volumetric mapping purpose only
-NBVP - 2016ICRA, [code](https://github.com/ethz-asl/nbvplanner), [paper](https://ieeexplore.ieee.org/document/7487281)
-GBP1 - 2019IROS, 2020JFR, [code](), [paper]()
-GBP2 - 2022ICRA
-MBP - 
-AEP - 2019RAL, [code](), [paper]()
-FUEL - 2021RAL, [code](), [paper]()
+<br>
 
-DSVP - 2021IROS, [code](https://github.com/HongbiaoZ/dsv_planner), [video](https://youtu.be/1yLLIZIIsDk), [paper](https://ieeexplore.ieee.org/document/9636473)
-TARE - 2021RSS, 2021ICRA [code](https://github.com/caochao39/tare_planner), [video](https://youtu.be/pIo64S-uOoI), [paper](http://www.roboticsproceedings.org/rss17/p018.pdf), [paper2](https://ieeexplore.ieee.org/document/9561916)
+# List
+## 1. Volumetric mapping purpose only
 
-UFOExplorer - 2022RAL, [code](https://github.com/UnknownFreeOccupied/UFOExplorer), [paper](https://ieeexplore.ieee.org/document/9681328), [video](https://youtu.be/MWrRXaaW-bg)
+|     Name    |                                                               Papers                                                              |                                                            Videos                                                           |                            Code                           |          Main Group         |
+|:-----------:|:---------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------:|:---------------------------:|
+|     NBVP    |                                     [2016 ICRA](https://ieeexplore.ieee.org/document/7487281)                                     |                                                                                                                             |       [git](https://github.com/ethz-asl/nbvplanner)       |           ETHZ-ASL          |
+|     GBP     | [2019 IROS](https://ieeexplore.ieee.org/document/8968151), [2020 JFR](https://onlinelibrary.wiley.com/doi/full/10.1002/rob.21993) | [youtube](https://youtu.be/VWgEVTeABdE), [youtube2](https://youtu.be/mw0qy05Fo6Q), [youtube3](https://youtu.be/SNMsKAnCQkw) |                       Same with GBP2                      |   ETHZ-ASL+RSL / NTNU-ARL   |
+|     GBP2    |                                     [2022 ICRA](https://ieeexplore.ieee.org/document/9812401)                                     |                                           [youtube](https://youtu.be/P3uT4gHEFHw)                                           |      [git](https://github.com/ntnu-arl/gbplanner_ros)     |   ETHZ-ASL+RSL / NTNU-ARL   |
+|     MBP     |                                     [2020 ICRA](https://ieeexplore.ieee.org/document/9196964)                                     | [youtube](https://youtu.be/ZvUedi5mzN8), [youtube2](https://youtu.be/bKVRHaJO938), [youtube3](https://youtu.be/aT9F4gRjyJ0) |      [git](https://github.com/ntnu-arl/mbplanner_ros)     |     ETHZ-ASL / NTNU-ARL     |
+|     AEP     |                                      [2019 RAL](https://ieeexplore.ieee.org/document/8633925)                                     |                                           [youtube](https://youtu.be/Mg93ojV5rC8)                                           |         [git](https://github.com/mseln/aeplanner)         |     LiU-AIICS / KTH-RPL     |
+| UFOExplorer |                                      [2022 RAL](https://ieeexplore.ieee.org/document/9681328)                                     |                                           [youtube](https://youtu.be/MWrRXaaW-bg)                                           | [git](https://github.com/UnknownFreeOccupied/UFOExplorer) |           KTH-RPL           |
+|     FUEL    |                                      [2021 RAL](https://ieeexplore.ieee.org/document/9324988)                                     |                                           [youtube](https://youtu.be/_dGgZUrWk-8)                                           |    [git](https://github.com/HKUST-Aerial-Robotics/FUEL)   | HKUST Aerial Robotics Group |
+|     DSVP    |                                     [2021 IROS](https://ieeexplore.ieee.org/document/9636473)                                     |                                           [youtube](https://youtu.be/1yLLIZIIsDk)                                           |      [git](https://github.com/HongbiaoZ/dsv_planner)      |    CMU Robotics Institute   |
+|     TARE    |      [2021 RSS](http://www.roboticsproceedings.org/rss17/p018.pdf), [2021 ICRA](https://ieeexplore.ieee.org/document/9561916)     |                                           [youtube](https://youtu.be/pIo64S-uOoI)                                           |      [git](https://github.com/caochao39/tare_planner)     |    CMU Robotics Institute   |
 
-#### Considering pose estimation
-RHEM - 2017ICRA, 2019AutonomousRobots, [code](https://github.com/ntnu-arl/rhem_planner), [video](https://youtu.be/iveNtQyUut4), [video2](https://youtu.be/LtQ7sPbHqr0), [paper](https://ieeexplore.ieee.org/document/7989531), [paper2](https://youtu.be/LtQ7sPbHqr0)
-GLocal - 
+## 2. Considering pose estimation
 
-#### Volumetric mapping + inspection/coverage path planning
-OIPP - 
-PredRecon - 
+|  Name  |                                                                       Papers                                                                      |                                       Videos                                      |                           Code                          | Main Group |
+|:------:|:-------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:-------------------------------------------------------:|:----------:|
+|  RHEM  | [2017 ICRA](https://ieeexplore.ieee.org/document/7989531), [2019 Autonomous Robots](https://link.springer.com/article/10.1007/s10514-019-09864-1) | [youtube](https://youtu.be/iveNtQyUut4), [youtube2](https://youtu.be/LtQ7sPbHqr0) | [git](https://https://github.com/ntnu-arl/rhem_planner) |  NTNU-ARL  |
+| GLocal |                                         [2021 RAL](https://ieeexplore.ieee.org/abstract/document/9387110)                                         |                      [youtube](https://youtu.be/WInjZvoCDCM)                      |  [git](https://github.com/ethz-asl/glocal_exploration)  |  ETHZ-ASL  |
+
+## 3. Volumetric mapping + inspection/coverage path planning
+
+|    Name   |                             Papers                            |                  Videos                 |                            Code                           |          Main Group         |
+|:---------:|:-------------------------------------------------------------:|:---------------------------------------:|:---------------------------------------------------------:|:---------------------------:|
+|    OIPP   |    [2020 RAL](https://ieeexplore.ieee.org/document/8968434)   | [youtube](https://youtu.be/lEadqJ1_8Do) | [git](https://github.com/ethz-asl/mav_active_3d_planning) |           ETHZ-ASL          |
+| PredRecon | [2023 ICRA (arXiv yet)](https://arxiv.org/pdf/2302.04488.pdf) | [youtube](https://youtu.be/ek7yY_FZYAc) | [git](https://github.com/HKUST-Aerial-Robotics/PredRecon) | HKUST Aerial Robotics Group |
+
+<br>
+
+
+# How to build and run
