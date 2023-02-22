@@ -18,7 +18,7 @@
 |     DSVP    |                                     [2021 IROS](https://ieeexplore.ieee.org/document/9636473)                                     |                                           [youtube](https://youtu.be/1yLLIZIIsDk)                                           |      [git](https://github.com/HongbiaoZ/dsv_planner)      |    CMU Robotics Institute   |
 |     TARE    |      [2021 RSS](http://www.roboticsproceedings.org/rss17/p018.pdf), [2021 ICRA](https://ieeexplore.ieee.org/document/9561916)     |                                           [youtube](https://youtu.be/pIo64S-uOoI)                                           |      [git](https://github.com/caochao39/tare_planner)     |    CMU Robotics Institute   |
 
-## 2. Considering pose estimation
+## 2. Volumetric mapping + Considering pose estimation
 
 |  Name  |                                                                       Papers                                                                      |                                       Videos                                      |                           Code                          | Main Group |
 |:------:|:-------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:-------------------------------------------------------:|:----------:|
@@ -60,21 +60,21 @@
 <details><summary>Unfold to see</summary>
 
 + Install dependencies and build the code
-```shell
-  sudo apt install ros-<distro>-octomap* 
-  sudo apt-get install libspatialindex-dev
-  python3 -m pip install rtree
-  
-  cd ~/catkin_ws/src/
-  git clone https://github.com/catkin/catkin_simple.git
-  git clone https://github.com/mseln/aeplanner.git
-  cd ..
-  catkin build
-  
-  ## If PCL errors in rpl_exploration,
-  ## change compiler to newer than c++14
-  ## in line 4 for CMakeLists.txt of rpl_exploration
-```
+  ```shell
+    sudo apt install ros-<distro>-octomap* 
+    sudo apt-get install libspatialindex-dev
+    python -m pip install rtree
+
+    cd ~/catkin_ws/src/
+    git clone https://github.com/catkin/catkin_simple.git
+    git clone https://github.com/mseln/aeplanner.git
+    cd ..
+    catkin build
+
+    ## If PCL errors in rpl_exploration,
+    ## change compiler to newer than c++14
+    ## in line 4 for CMakeLists.txt of rpl_exploration
+  ```
   
 </details>
 
@@ -90,6 +90,15 @@
 + AEP
   + If installed manually,
   + If installed with docker,
+    ```shell
+      roslaunch rpl_exploration px4_sitl_gazebo.launch
+      # choose sensor
+      roslaunch rpl_exploration rpl_exploration.launch sensor:=lidar
+      roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
+      # arming & offboarding
+      rosservice call /mavros/cmd/arming "value: true"
+      rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'" 
+    ```
 
 <br>
 
