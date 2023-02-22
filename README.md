@@ -44,7 +44,7 @@
 + They both use `libmav_msgs.so` file with the same name but different source codes.
 + If you have both simulators, do not forget to change the name of either one temporally.
   + PX4-SITL: `PX4-Autopilot/build/px4_sitl_default/build_gazebo/libmav_msgs.so`
-  + RotorS: `<workspace>/devel/`
+  + RotorS: `<workspace>/build/rotors_gazebo_plugins/libmav_msgs.so`
 
 #### 1-1. Install PX4-SITL - for AEP
 + Follow [here](https://github.com/engcang/mavros-gazebo-application/blob/master/README.md#installation)
@@ -69,9 +69,9 @@
 + Change CMakeLists.txt and build the code
   ```shell
   cd ~/catkin_ws/src/nbvplanner/nbvplanner
-  wget 
+  wget -O CMakeLists.txt https://raw.githubusercontent.com/engcang/exploration-algorithms/main/nbvp/nbvplanner/CMakeLists.txt
   cd ~/catkin_ws/src/nbvplanner/interface_nbvp_rotors
-  wget 
+  wget -O CMakeLists.txt https://raw.githubusercontent.com/engcang/exploration-algorithms/main/nbvp/interface_nbvp_rotors/CMakeLists.txt
 
   cd ~/catkin_ws
   catkin build
@@ -105,7 +105,24 @@
 <br>
 
 ## Run Demos
-#### 1. AEP
+#### 1. NBVP
+<details><summary>Unfold to see</summary>
+
++ **Important:** Put `<plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so"/>` into Gazebo `.world` file
++ Get missing files
+  ```shell
+    cd ~/catkin_ws/src/nbvplanner/rotors/rotors_description/urdf
+    wget
+    wget
+  ```
++ Run the demo
+  ```shell
+    roslaunch interface_nbvp_rotors flat_exploration.launch
+  ```
+
+</details>
+
+#### 2. AEP
 <details><summary>Unfold to see</summary>
 
 + Get config files and Gazebo models and build
