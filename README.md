@@ -36,27 +36,23 @@
 
 
 # How to build and run
-+ Option1: Follow install instructions below and run demos
-+ Option2: Get Docker file that already has SOTA packages installed
-
 ## Installation
-### Option1 - Follow install instructions
-#### 1. Install simulator
+### 1. Install simulator
 <details><summary>Unfold to see</summary>
   
-##### Note: Having PX4-SITL and RotorS Simulator at the same time
+#### Note: When having PX4-SITL and RotorS Simulator at the same time
 + They both use `libmav_msgs.so` file with the same name but different source codes.
 + If you have both simulators, do not forget to change the name of either one temporally.
 
-##### 1-1. Install PX4-SITL - for AEP
+#### 1-1. Install PX4-SITL - for AEP
 + Follow [here](https://github.com/engcang/mavros-gazebo-application/blob/master/README.md#installation)
 
-##### 1-2. Install RotorS Simulator - for NBVP, GBP, MBP
+#### 1-2. Install RotorS Simulator - for NBVP, GBP, MBP
 
 </details>
   
-#### 2. Install algorithms
-##### 2-1. AEP
+### 2. Install algorithms
+#### 2-1. AEP
 <details><summary>Unfold to see</summary>
 
 + Install dependencies and build the code
@@ -78,27 +74,47 @@
   
 </details>
 
-### Option2 - Get Docker file
-+ AEP
-+ NBVP, GBP, MBP
-+ DSVP, TARE
-
 
 <br>
 
 ## Run Demos
-+ AEP
-  + If installed manually,
-  + If installed with docker,
-    ```shell
-      roslaunch rpl_exploration px4_sitl_gazebo.launch
-      # choose sensor
-      roslaunch rpl_exploration rpl_exploration.launch sensor:=lidar
-      roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
-      # arming & offboarding
-      rosservice call /mavros/cmd/arming "value: true"
-      rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
-    ```
+#### AEP
+<details><summary>Unfold to see</summary>
+
++ Get config files and Gazebo models and build
+  ```shell
+    git clone https://github.com/engcang/exploration-algorithms --recursive
+    mv exploration-algorithms/aep/ouster_gazebo_plugins ~/catkin_ws/src/
+    mv exploration-algorithms/aep/gazebo_env ~/catkin_ws/src/
+    mv exploration-algorithms/aep/rpl_exploraiton ~/catkin_ws/src/aeplanner/
+
+    cd ~/catkin_ws
+    catkin build
+  ```
++ Set Gazebo paths
+  ```shell
+    cd ~/catkin_ws/src/gazebo_env/gazebo_maps/reconstruction
+    tar -xf recon3.tar.xz
+
+    gedit ~/.bashrc
+
+    !Then, edit GAZEBO_PLUGIN_PATH and GAZEBO_MODEL_PATH!
+
+    export GAZEBO_PLUGIN_PATH=:/home/$(whoami)/PX4-Autopilot/build/px4_sitl_default/build_gazebo:$GAZEBO_PLUGIN_PATH
+    export GAZEBO_MODEL_PATH=/home/$(whoami)/catkin_ws/src/gazebo_env/drone_models:/home/$(whoami)/catkin_ws/src/gazebo_env/gazebo_maps/reconstruction:/home/$(whoami)/PX4-Autopilot/Tools/sitl_gazebo/models:$GAZEBO_MODEL_PATH
+  ```
++ Run the demo
+  ```shell
+    roslaunch rpl_exploration px4_sitl_gazebo.launch
+    # choose sensor
+    roslaunch rpl_exploration rpl_exploration.launch sensor:=lidar
+    roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
+    # arming & offboarding
+    rosservice call /mavros/cmd/arming "value: true"
+    rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
+  ```
+
+</details>
 
 <br>
 

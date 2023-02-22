@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="d435i">
+    <pose>0 0 0 0 0 0</pose>
+    <link name="camera_link">
+      <inertial>
+        <mass>0.072</mass>
+          <inertia>
+            <ixx>4.6928e-5</ixx>
+            <ixy>4.8e-10</ixy>
+            <ixz>1.89e-9</ixz>
+            <iyy>6.641e-6</iyy>
+            <iyz>1.5406e-7</iyz>
+            <izz>4.6498e-5</izz>
+          </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <mesh>
+            <uri>model://d435i/d435i.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor name="camera" type="depth">
+        <camera name="depth">
+          <horizontal_fov>1.5708</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.0001</stddev>
+          </noise>
+        </camera>
+        <always_on>1</always_on>
+        <visualize>1</visualize>
+        <update_rate>15</update_rate>
+        <plugin name="camera_plugin" filename="libgazebo_ros_openni_kinect.so">
+          <baseline>0.05</baseline>
+          <alwaysOn>true</alwaysOn>
+          <robotNamespace>/d435i</robotNamespace>
+          <updateRate>0.0</updateRate>
+          <cameraName>depth</cameraName>
+          <imageTopicName>rgb_image_raw</imageTopicName>
+          <cameraInfoTopicName>rgb_camera_info</cameraInfoTopicName>
+          <depthImageTopicName>image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>camera_info</depthImageCameraInfoTopicName>
+          <pointCloudTopicName>pointcloud</pointCloudTopicName>
+          <frameName>depth_camera_link</frameName>
+          <pointCloudCutoff>0.11</pointCloudCutoff>
+          <pointCloudCutoffMax>7.0</pointCloudCutoffMax>
+          <distortionK1>0</distortionK1>
+          <distortionK2>0</distortionK2>
+          <distortionK3>0</distortionK3>
+          <distortionT1>0</distortionT1>
+          <distortionT2>0</distortionT2>
+          <hackBaseline>0.05</hackBaseline>
+        </plugin>
+      </sensor>
+
+      <sensor type="multicamera" name="stereo_camera">
+        <camera name="left">
+          <pose>0 0 0 0 0 0</pose>
+          <horizontal_fov>1.5708</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.05</near>
+            <far>1500</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.0</stddev>
+          </noise>
+        </camera>
+        <camera name="right">
+          <pose>0 -0.05 0 0 0 0</pose>
+          <horizontal_fov>1.5708</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.05</near>
+            <far>1500</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.0</stddev>
+          </noise>
+        </camera>
+        <always_on>1</always_on>
+        <visualize>1</visualize>
+        <update_rate>15.0</update_rate>
+        <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <robotNamespace>/d435i</robotNamespace>
+          <cameraName>stereo_ir</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>stereo_camera_link</frameName>
+          <CxPrime>0.0</CxPrime>
+          <Cx>0.0</Cx>
+          <Cy>0.0</Cy>
+          <focalLength>0.0</focalLength>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+          <hackBaseline>0.05</hackBaseline>
+        </plugin>
+      </sensor>
+
+    </link>
+  </model>
+</sdf>

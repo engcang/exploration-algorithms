@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="os0_64">
+    <pose>0 0 0 0 0 0</pose>
+    <link name="os_link">
+      <inertial>
+        <mass>0.1</mass>
+          <inertia>
+            <ixx>0.0000241148</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0000241148</iyy>
+            <iyz>0</iyz>
+            <izz>0.0000264</izz>
+          </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <mesh>
+            <uri>model://os0_64/os1_64.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor name="laser" type="ray">
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>2048</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.141592653589</min_angle>
+              <max_angle>3.141592653589</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>64</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.7854</min_angle>
+              <max_angle>0.7854</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.7</min>
+            <max>50.0</max>
+            <resolution>0.03</resolution>
+          </range>
+        </ray>
+        <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_ouster_laser.so">
+          <topicName>/ouster/points</topicName>
+          <frameName>os_lidar</frameName>
+          <min_range>0.7</min_range>
+          <max_range>50.0</max_range>
+          <gaussianNoise>0.008</gaussianNoise>
+          <update_rate>10.0</update_rate>
+        </plugin>
+        <visualize>false</visualize>
+        <always_on>1</always_on>
+        <update_rate>10.0</update_rate>
+      </sensor>
+    </link>
+
+    <link name="os_imu_link">
+      <inertial>
+        <mass>0.01</mass>
+          <inertia>
+            <ixx>0.000000241148</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.000000241148</iyy>
+            <iyz>0</iyz>
+            <izz>0.000000241148</izz>
+          </inertia>
+      </inertial>
+    </link>
+
+    <joint name="os_imu_link_joint" type="fixed">
+      <parent>os_link</parent>
+      <child>os_imu_link</child>
+      <pose>0.006253 -0.011775 0.007645 0 0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <robotNamespace>/</robotNamespace>
+      <updateRate>100.0</updateRate> 
+      <bodyName>os_imu_link</bodyName>
+      <topicName>/ouster/imu</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+
+
+  </model>
+</sdf>

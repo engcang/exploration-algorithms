@@ -1,0 +1,3 @@
+[submodule "aep/gazebo_env/gazebo_maps"]
+	path = aep/gazebo_env/gazebo_maps
+	url = https://github.com/engcang/gazebo_maps
