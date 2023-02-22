@@ -22,7 +22,7 @@
 
 |  Name  |                                                                       Papers                                                                      |                                       Videos                                      |                           Code                          | Main Group |
 |:------:|:-------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|:-------------------------------------------------------:|:----------:|
-|  RHEM  | [2017 ICRA](https://ieeexplore.ieee.org/document/7989531), [2019 Autonomous Robots](https://link.springer.com/article/10.1007/s10514-019-09864-1) | [youtube](https://youtu.be/iveNtQyUut4), [youtube2](https://youtu.be/LtQ7sPbHqr0) | [git](https://https://github.com/ntnu-arl/rhem_planner) |  NTNU-ARL  |
+|  RHEM  | [2017 ICRA](https://ieeexplore.ieee.org/document/7989531), [2019 Autonomous Robots](https://link.springer.com/article/10.1007/s10514-019-09864-1) | [youtube](https://youtu.be/iveNtQyUut4), [youtube2](https://youtu.be/LtQ7sPbHqr0) | [git](https://github.com/ntnu-arl/rhem_planner) |  NTNU-ARL  |
 | GLocal |                                         [2021 RAL](https://ieeexplore.ieee.org/abstract/document/9387110)                                         |                      [youtube](https://youtu.be/WInjZvoCDCM)                      |  [git](https://github.com/ethz-asl/glocal_exploration)  |  ETHZ-ASL  |
 
 ## 3. Volumetric mapping + inspection/coverage path planning
@@ -36,14 +36,27 @@
 
 
 # How to build and run
-## Note: Having PX4-SITL and RotorS Simulator at the same time
++ Option1: Follow install instructions below and run demos
++ Option2: Get Docker file that already has SOTA packages installed
+
+## Installation
+### Option1 - install instructions
+
+#### Note: Having PX4-SITL and RotorS Simulator at the same time
 + They both use `libmav_msgs.so` file with the same name but different source codes.
 + If you have both simulators, do not forget to change the name of either one temporally.
 
-### Install PX4-SITL - for AEP
+#### Install PX4-SITL - for AEP
 + Follow [here](https://github.com/engcang/mavros-gazebo-application/blob/master/README.md#installation)
 
-### Install RotorS Simulator - for NBVP, GBP, MBP, 
+#### Install RotorS Simulator - for NBVP, GBP, MBP
+
+### Option2 - Get Docker file
++ AEP
++ NBVP, GBP, MBP
++ DSVP, TARE
+
+## Run
 
 <br>
 
