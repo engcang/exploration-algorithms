@@ -85,7 +85,11 @@
 
 
 <br>
+
 ## Run Demos
++ AEP
+  + If installed manually,
+  + If installed with docker,
 
 <br>
 
