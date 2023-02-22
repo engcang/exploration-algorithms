@@ -63,7 +63,7 @@
   ```shell
     sudo apt install ros-<distro>-octomap* 
     sudo apt-get install libspatialindex-dev
-    python -m pip install rtree
+    python2 -m pip install rtree
 
     cd ~/catkin_ws/src/
     git clone https://github.com/catkin/catkin_simple.git
@@ -97,7 +97,7 @@
       roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
       # arming & offboarding
       rosservice call /mavros/cmd/arming "value: true"
-      rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'" 
+      rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
     ```
 
 <br>
