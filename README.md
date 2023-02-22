@@ -36,3 +36,14 @@
 
 
 # How to build and run
+## Note: Having PX4-SITL and RotorS Simulator at the same time
++ They both use `libmav_msgs.so` file with the same name but different source codes.
++ If you have both simulators, do not forget to change the name of either one temporally.
+
+### Install PX4-SITL - for AEP
++ Follow [here](https://github.com/engcang/mavros-gazebo-application/blob/master/README.md#installation)
+
+### Install RotorS Simulator - for NBVP, GBP, MBP, 
+
+<br>
+
