@@ -58,7 +58,8 @@
 #### 2. Install algorithms
 ##### 2-1. AEP
 <details><summary>Unfold to see</summary>
-+   
+
++ Install dependencies and build the code
 ```shell
   sudo apt install ros-<distro>-octomap* 
   sudo apt-get install libspatialindex-dev
@@ -82,7 +83,9 @@
 + NBVP, GBP, MBP
 + DSVP, TARE
 
-## Run
+
+<br>
+## Run Demos
 
 <br>
 
