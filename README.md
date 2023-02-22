@@ -40,16 +40,42 @@
 + Option2: Get Docker file that already has SOTA packages installed
 
 ## Installation
-### Option1 - install instructions
-
-#### Note: Having PX4-SITL and RotorS Simulator at the same time
+### Option1 - Follow install instructions
+#### 1. Install simulator
+<details><summary>Unfold to see</summary>
+  
+##### Note: Having PX4-SITL and RotorS Simulator at the same time
 + They both use `libmav_msgs.so` file with the same name but different source codes.
 + If you have both simulators, do not forget to change the name of either one temporally.
 
-#### Install PX4-SITL - for AEP
+##### 1-1. Install PX4-SITL - for AEP
 + Follow [here](https://github.com/engcang/mavros-gazebo-application/blob/master/README.md#installation)
 
-#### Install RotorS Simulator - for NBVP, GBP, MBP
+##### 1-2. Install RotorS Simulator - for NBVP, GBP, MBP
+
+</details>
+  
+#### 2. Install algorithms
+##### 2-1. AEP
+<details><summary>Unfold to see</summary>
++   
+```shell
+  sudo apt install ros-<distro>-octomap* 
+  sudo apt-get install libspatialindex-dev
+  python3 -m pip install rtree
+  
+  cd ~/catkin_ws/src/
+  git clone https://github.com/catkin/catkin_simple.git
+  git clone https://github.com/mseln/aeplanner.git
+  cd ..
+  catkin build
+  
+  ## If PCL errors in rpl_exploration,
+  ## change compiler to newer than c++14
+  ## in line 4 for CMakeLists.txt of rpl_exploration
+```
+  
+</details>
 
 ### Option2 - Get Docker file
 + AEP
