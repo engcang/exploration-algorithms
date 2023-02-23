@@ -149,12 +149,12 @@
     rm -r src/sim/rotors_simulator # install it as above Section 1-2.  
   ```
 + Change the path of `Eigen` in
-  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/params.h`
-  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/gbplanner_rviz.h`
-  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/geofence_manager.h`
-  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/graph_manager.h`
-  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/map_manager.h`
-  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/rrg.h`
+  + `gbplanner_ros/gbplanner/include/gbplanner/params.h`
+  + `gbplanner_ros/gbplanner/include/gbplanner/gbplanner_rviz.h`
+  + `gbplanner_ros/gbplanner/include/gbplanner/geofence_manager.h`
+  + `gbplanner_ros/gbplanner/include/gbplanner/graph_manager.h`
+  + `gbplanner_ros/gbplanner/include/gbplanner/map_manager.h`
+  + `gbplanner_ros/gbplanner/include/gbplanner/rrg.h`
     ```c++
       //#include <eigen3/Eigen/Dense>
       #include <Eigen/Dense>
@@ -186,18 +186,18 @@
     cd ~/catkin_ws
     rm -r src/sim/rotors_simulator # install it as above Section 1-2.
   ```
-+ Edit the code error
-  + `catkin_ws/src/exploration/mbplanner/mbplanner_ros/planner_common/src/params.cpp`
++ Fix the code error
+  + `exploration/mbplanner/mbplanner_ros/planner_common/src/params.cpp`
   + Line 847 (in `MBParams::loadParams(std::string ns)`)
     ```c++
       // Add
       return true;
     ```
-  + Change the path of `Eigen` in `exploration/mbplanner_ros/planner_common/include/planner_common/visualizer.h`
-    ```c++
-      //#include <eigen3/Eigen/Dense>
-      #include <Eigen/Dense>
-    ```
++ Change the path of `Eigen` in `exploration/mbplanner_ros/planner_common/include/planner_common/visualizer.h`
+  ```c++
+    //#include <eigen3/Eigen/Dense>
+    #include <Eigen/Dense>
+  ```
 + Build
   ```shell
     cd ~/catkin_ws
@@ -248,15 +248,28 @@
     make
     sudo make install
   ```
-+ Change `CMakeLists.txt` of `bsline_opt`
-  ```shell
-    
-  ```
-+ Build the code
++ Get the code and change `CMakeLists.txt` of `bsline_opt`
   ```shell
     cd ~/catkin_ws/src
     git clone https://github.com/HKUST-Aerial-Robotics/FUEL.git
-    cd ..
+    cd FUEL/fuel_planner/bspline_opt
+    wget -O CMakeLists.txt https://raw.githubusercontent.com/engcang/exploration-algorithms/main/fuel/CMakeLists.txt
+  ```
++ Change compiler into `c++14` in all `CMakeLists.txt` files
+  ```makefile
+    #set(CMAKE_CXX_FLAGS "-std=c++11")
+    set(CMAKE_CXX_FLAGS "-std=c++14")
+  ```
++ Fix the code error
+  + `FUEL/fuel_planner/path_searching/src/kinodynamic_astar.cpp`
+  + Line 654 (in `int KinodynamicAstar::timeToIndex(double time)`)
+    ```c++
+      // Add
+      return idx;
+    ```
++ Build the code
+  ```shell
+    cd ~/catkin_ws
     catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
@@ -370,6 +383,7 @@
   ```shell
     roslaunch exploration_manager rviz.launch
     roslaunch exploration_manager exploration.launch
+    !Start with 2D Nav Goal in Rviz
   ```
 
 </details>
