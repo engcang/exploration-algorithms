@@ -37,6 +37,10 @@
 
 # How to build and run
 ## Installation
+### 0. Common dependencies
++ ROS: all
++ OctoMap: NBVP, GBP, MBP, AEP
++ Voxblox: MBP, GBP
 ### 1. Install simulator
 <details><summary>Unfold to see</summary>
   
@@ -50,10 +54,28 @@
 + Follow [here](https://github.com/engcang/mavros-gazebo-application/blob/master/README.md#installation)
 
 #### 1-2. Install RotorS Simulator - for NBVP, GBP, MBP
++ Because of the version issuse, I recommend to install as here
++ Get the code and build
+  ```shell
+    cd ~/catkin_ws/src
+    git clone https://github.com/ethz-asl/rotors_simulator --recursive
+    rm -r rotors_simulator/rotors_description
+    rm -r rotors_simulator/rotors_gazebo
+
+    cd ~/catkin_ws
+    git clone https://github.com/engcang/exploration-algorithms
+    mv exploration-algorithms/rotors_description src/rotors_simulator/
+    mv exploration-algorithms/rotors_gazebo src/rotors_simulator/
+
+    catkin build
+  ```
 
 </details>
   
 ### 2. Install algorithms
+#### Note: When having NBVP, GBP, MBP at the same time
++ They use different versions of `volumetric_mapping`, `rotors_simulator`, `mav_comm`, `eigen_catkin`, `eigen_checks`
+
 #### 2-1. NBVP
 <details><summary>Unfold to see</summary>
 
@@ -63,7 +85,8 @@
   git clone https://github.com/ethz-asl/nbvplanner.git
   cd nbvplanner
   git submodule update --init --recursive
-  cd rotors && git pull origin master
+  
+  rm -r rotors # install it as above Secetion 1-2.
   cd mav_comm && git pull origin master
   ```
 + Change CMakeLists.txt and build the code
@@ -79,7 +102,36 @@
 
 </details>
 
-#### 2-2. AEP
+#### 2-2. MBP
+<details><summary>Unfold to see</summary>
+
++ Get the code and build
+  ```shell
+  git clone https://github.com/unr-arl/mbplanner_ws.git
+  cd mbplanner_ws
+  git checkout melodic-devel
+  wstool init
+  wstool merge packages_https.rosinstall
+  wstool update
+
+  mv mbplanner_ws/src/* ~/catkin_ws/src/
+  cd ~/catkin_ws
+  rm -r src/sim/rotors_simulator # install it as above Secetion 1-2.
+
+  catkin config -DCMAKE_BUILD_TYPE=Release
+  catkin build
+  ```
++ Trouble shooting for `planner_common`
+  + When `opencv` path errors from `image_proc`,
+    + Change the directory of `opencv` in `/opt/ros/melodic/share/image_proc/cmake/image_procConfig.cmake`
+  + When `Eigen` error,
+    + Change the path of `Eigen` in `exploration/mbplanner_ros/planner_common/include/planner_common/visualizer.h`
+      + From `<eigen3/Eigen/Dense>` to `<Eigen/Dense>`
+    + (Optional): Delete `eigen_catkin` and `eigen_checks`
+
+</details>
+
+#### 2-3. AEP
 <details><summary>Unfold to see</summary>
 
 + Install dependencies and build the code
@@ -109,12 +161,6 @@
 <details><summary>Unfold to see</summary>
 
 + **Important:** Put `<plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so"/>` into Gazebo `.world` file
-+ Get missing files
-  ```shell
-    cd ~/catkin_ws/src/nbvplanner/rotors/rotors_description/urdf
-    wget
-    wget
-  ```
 + Run the demo
   ```shell
     roslaunch interface_nbvp_rotors flat_exploration.launch
@@ -122,7 +168,18 @@
 
 </details>
 
-#### 2. AEP
+#### 2. MBP
+<details><summary>Unfold to see</summary>
+
++ Run the demo
+  ```shell
+  roslaunch mbplanner mbplanner_m100_sim.launch
+  rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
+  ```
+
+</details>
+
+#### 3. AEP
 <details><summary>Unfold to see</summary>
 
 + Get config files and Gazebo models and build
