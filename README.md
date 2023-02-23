@@ -39,9 +39,9 @@
 ## Installation
 ### 0. Common dependencies
 + ROS: all
-+ OctoMap: NBVP, GBP, MBP, AEP
++ OctoMap: NBVP, GBP, MBP, AEP, DSVP
 + Voxblox: MBP, GBP
-### 1. Install simulator
+### 1. Install simulator (required)
 <details><summary>Unfold to see</summary>
   
 #### Note: When having PX4-SITL and RotorS Simulator at the same time
@@ -69,6 +69,9 @@
 
     catkin build
   ```
+
+#### 1-3. Install Autonomous Exploration Development Environment - for DSVP, TARE
++ Follow [here](https://www.cmu-exploration.com/)
 
 </details>
   
@@ -217,7 +220,7 @@
 
 + Install dependencies and build the code
   ```shell
-    sudo apt install ros-<distro>-octomap* 
+    sudo apt install ros-melodic-octomap* 
     sudo apt-get install libspatialindex-dev
     python2 -m pip install rtree
 
@@ -275,7 +278,71 @@
 
 </details>
 
+#### 2-7. DSVP
+<details><summary>Unfold to see</summary>
 
++ Install dependencies and get the code
+  ```shell
+    sudo apt install ros-melodic-octomap-ros libgoogle-glog-dev libgflags-dev
+
+    cd ~/catkin_ws/src
+    git clone https://github.com/HongbiaoZ/dsv_planner.git
+    cd dsv_planner
+    git checkout origin/melodic
+  ```
++ Fix `CMakeLists.txt` in `dsv_planner/src/volumetric_mapping/octomap_world`
+  ```makefile
+    #target_link_libraries(octomap_manager ${PROJECT_NAME} glog)
+    target_link_libraries(octomap_manager ${PROJECT_NAME} glog gflags)
+  ```
++ Fix `CMakeLists.txt` in `dsv_planner/src/dsvplanner/dsvplanner`
+  ```makefile
+    find_package(catkin REQUIRED COMPONENTS
+      roscpp
+      geometry_msgs
+      visualization_msgs
+      message_generation
+      octomap_world
+      tf
+      kdtree
+      std_msgs
+      nav_msgs
+      misc_utils
+      graph_planner #ADDED
+      graph_utils
+    )
+  ```
++ Change the path of `Eigen` in
+  + `dsv_planner/src/dsvplanner/dsvplanner/include/dsvplanner/drrt_base.h`
+  + `dsv_planner/src/dsvplanner/dsvplanner/src/drrtp.cpp`
+  + `dsv_planner/src/dsvplanner/dsvplanner/src/drrtp_node.cpp`
+    ```c++
+      //#include <eigen3/Eigen/Dense>
+      #include <Eigen/Dense>
+    ```
++ Build the code
+  ```shell
+    cd ~/catkin_ws
+    catkin build
+  ```
+
+</details>
+
+#### 2-8. TARE
+<details><summary>Unfold to see</summary>
+
++ Get and build the code
+  ```shell
+    cd ~/catkin_ws/src
+    git clone https://github.com/caochao39/tare_planner.git
+    cd ..
+
+    sudo apt remove libflags* ### as it is using OR-Tools
+
+    catkin build
+  ```
+
+</details>
 
 
 
@@ -387,6 +454,49 @@
   ```
 
 </details>
+
+#### 7. DSVP
+<details><summary>Unfold to see</summary>
+
++ Run the demo
+  ```shell
+    roslaunch vehicle_simulator system_garage.launch
+    roslaunch dsvp_launch explore_garage.launch
+  ```
+
+</details>
+
+
+#### 8. TARE
+<details><summary>Unfold to see</summary>
+
++ Run the demo
+  ```shell
+    roslaunch vehicle_simulator system_garage.launch
+    roslaunch tare_planner explore_garage.launch
+  ```
++ Trouble shooting
+  + When `symbol lookup error: tare_planner/or-tools/lib/libortools.so: undefined symbol: _ZN6gflags14FlagRegistererC1IiEEPKcS3_S3_PT_S5_`
+    + Check if `libortools.so` is referring the right libraries
+    + If reffering wrong, delete or rename the wrong libraries temporarily
+      ```shell
+        ldd tare_planner/or-tools/lib/ldd libortool.so
+
+        ! wrong output
+        libgflags.so.2.2 => sota_ws/devel/lib/libgflags.so.2.2 (0x00007f036830d000)
+        libglog.so.0 => sota_ws/devel/lib/libglog.so.0 (0x00007f03680dc000)
+
+        ! after delete/rename wrong files
+        sudo ldconfig
+        ldd tare_planner/or-tools/lib/ldd libortool.so        
+        
+        ! correct output
+        libgflags.so.2.2 => tare_planner/src/tare_planner/or-tools/lib/./libgflags.so.2.2 (0x00007fe6749e0000)
+        libglog.so.0 => tare_planner/src/tare_planner/or-tools/lib/./libglog.so.0 (0x00007fe6747a3000)
+      ```
+
+</details>
+
 
 
 
