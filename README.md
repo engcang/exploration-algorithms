@@ -117,9 +117,21 @@
   mv mbplanner_ws/src/* ~/catkin_ws/src/
   cd ~/catkin_ws
   rm -r src/sim/rotors_simulator # install it as above Secetion 1-2.
+  ```
++ Edit the code error
+  + `catkin_ws/src/exploration/mbplanner/mbplanner_ros/planner_common/src/params.cpp`
+  + Line 847 (in `MBParams::loadParams(std::string ns)`)
+  ```c++
+    // Add
+    return true;
+  ```
++ Build
+  ```shell
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
 
-  catkin config -DCMAKE_BUILD_TYPE=Release
-  catkin build
+  !Optionally, for use with OctoMap
+  catkin build -DUSE_OCTOMAP=1
   ```
 + Trouble shooting for `planner_common`
   + When `opencv` path errors from `image_proc`,
@@ -171,6 +183,11 @@
 #### 2. MBP
 <details><summary>Unfold to see</summary>
 
++ Check `map_config_file`, if it is `octomap` or `voxblox`
+  ```xml
+  <arg name="map_config_file" default="$(arg octomap_config_file)"/>
+  <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
+  ```
 + Run the demo
   ```shell
   roslaunch mbplanner mbplanner_m100_sim.launch
