@@ -86,7 +86,7 @@
   cd nbvplanner
   git submodule update --init --recursive
   
-  rm -r rotors # install it as above Secetion 1-2.
+  rm -r rotors # install it as above Section 1-2.
   cd mav_comm && git pull origin master
   ```
 + Change CMakeLists.txt and build the code
@@ -102,7 +102,35 @@
 
 </details>
 
-#### 2-2. MBP
+#### 2-2. GBP2
+<details><summary>Unfold to see</summary>
+
++ Install dependencies and get the code
+  ```shell
+  sudo apt install python-catkin-tools \
+  libgoogle-glog-dev \
+  ros-melodic-joy \
+  ros-melodic-twist-mux \
+  ros-melodic-interactive-marker-twist-server \
+  ros-melodic-octomap-ros
+
+  cd catkin_ws
+  git clone https://github.com/ntnu-arl/gbplanner_ros.git -b gbplanner2
+  wstool init
+  wstool merge ./gbplanner_ros/packages_ssh.rosinstall
+  wstool update
+
+  rm -r src/sim/rotors_simulator #install it as above Section 1-2.
+  ```
++ Build  
+  ```shell
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
+  ```
+
+</details>
+
+#### 2-3. MBP
 <details><summary>Unfold to see</summary>
 
 + Get the code and build
@@ -116,7 +144,7 @@
 
   mv mbplanner_ws/src/* ~/catkin_ws/src/
   cd ~/catkin_ws
-  rm -r src/sim/rotors_simulator # install it as above Secetion 1-2.
+  rm -r src/sim/rotors_simulator # install it as above Section 1-2.
   ```
 + Edit the code error
   + `catkin_ws/src/exploration/mbplanner/mbplanner_ros/planner_common/src/params.cpp`
@@ -143,7 +171,7 @@
 
 </details>
 
-#### 2-3. AEP
+#### 2-4. AEP
 <details><summary>Unfold to see</summary>
 
 + Install dependencies and build the code
@@ -180,7 +208,19 @@
 
 </details>
 
-#### 2. MBP
+#### 2. GBP2
+<details><summary>Unfold to see</summary>
+
++ Run the demo
+  ```shell
+  roslaunch gbplanner rmf_sim.launch
+  or
+  roslaunch gbplanner smb_sim.launch
+  ```
+
+</details>
+
+#### 3. MBP
 <details><summary>Unfold to see</summary>
 
 + Check `map_config_file`, if it is `octomap` or `voxblox`
@@ -196,7 +236,7 @@
 
 </details>
 
-#### 3. AEP
+#### 4. AEP
 <details><summary>Unfold to see</summary>
 
 + Get config files and Gazebo models and build
