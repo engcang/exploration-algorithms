@@ -74,7 +74,7 @@
   
 ### 2. Install algorithms
 #### Note: When having NBVP, GBP, MBP at the same time
-+ They use different versions of `volumetric_mapping`, `rotors_simulator`, `mav_comm`, `eigen_catkin`, `eigen_checks`
++ They use different versions of `volumetric_mapping`, `rotors_simulator`, `mav_comm`, `eigen_catkin`, `eigen_checks`, etc...
 
 #### 2-1. NBVP
 <details><summary>Unfold to see</summary>
@@ -234,6 +234,37 @@
   
 </details>
 
+#### 2-6. FUEL
+<details><summary>Unfold to see</summary>
+
++ Install dependencies 
+  ```shell
+    sudo apt-get install libarmadillo-dev
+    sudo apt-get install libdw-dev
+    git clone https://github.com/stevengj/nlopt.git
+    cd nlopt
+    mkdir build && cd build
+    cmake ..
+    make
+    sudo make install
+  ```
++ Change `CMakeLists.txt` of `bsline_opt`
+  ```shell
+    
+  ```
++ Build the code
+  ```shell
+    cd ~/catkin_ws/src
+    git clone https://github.com/HKUST-Aerial-Robotics/FUEL.git
+    cd ..
+    catkin build -DCMAKE_BUILD_TYPE=Release
+  ```
+
+</details>
+
+
+
+
 
 <br>
 
@@ -331,5 +362,18 @@
 
 </details>
 
-<br>
 
+#### 6. FUEL
+<details><summary>Unfold to see</summary>
+
++ Run the demo
+  ```shell
+    roslaunch exploration_manager rviz.launch
+    roslaunch exploration_manager exploration.launch
+  ```
+
+</details>
+
+
+
+<br>
