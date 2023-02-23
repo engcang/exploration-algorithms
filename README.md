@@ -116,6 +116,7 @@
 
   cd catkin_ws
   git clone https://github.com/ntnu-arl/gbplanner_ros.git -b gbplanner2
+
   wstool init
   wstool merge ./gbplanner_ros/packages_ssh.rosinstall
   wstool update
@@ -130,48 +131,88 @@
 
 </details>
 
-#### 2-3. MBP
+#### 2-3. GBP1
+<details><summary>Unfold to see</summary>
+
++ Clone and build the code
+  ```shell
+    cd ~/catkin_ws
+    git clone https://github.com/ntnu-arl/gbplanner_ws.git
+    cd gbplanner_ws
+    git checkout origin/melodic
+    wstool init
+    wstool merge packages_https.rosinstall
+    wstool update
+
+    mv gbplanner_ws/src/* ~/catkin_ws/src/
+    cd ~/catkin_ws
+    rm -r src/sim/rotors_simulator # install it as above Section 1-2.  
+  ```
++ Change the path of `Eigen` in
+  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/params.h`
+  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/gbplanner_rviz.h`
+  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/geofence_manager.h`
+  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/graph_manager.h`
+  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/map_manager.h`
+  + `exploration/gbplanner_ros/gbplanner/include/gbplanner/rrg.h`
+    ```c++
+      //#include <eigen3/Eigen/Dense>
+      #include <Eigen/Dense>
+    ```
++ Build
+  ```shell
+    cd ~/catkin_ws
+    catkin build -DCMAKE_BUILD_TYPE=Release
+
+    !Optionally, for use with OctoMap
+    catkin build -DCMAKE_BUILD_TYPE=Release -DUSE_OCTOMAP=1
+  ```
+
+</details>
+
+#### 2-4. MBP
 <details><summary>Unfold to see</summary>
 
 + Get the code and build
   ```shell
-  git clone https://github.com/unr-arl/mbplanner_ws.git
-  cd mbplanner_ws
-  git checkout melodic-devel
-  wstool init
-  wstool merge packages_https.rosinstall
-  wstool update
+    git clone https://github.com/ntnu-arl/mbplanner_ws.git
+    cd mbplanner_ws
+    git checkout melodic-devel
+    wstool init
+    wstool merge packages_https.rosinstall
+    wstool update
 
-  mv mbplanner_ws/src/* ~/catkin_ws/src/
-  cd ~/catkin_ws
-  rm -r src/sim/rotors_simulator # install it as above Section 1-2.
+    mv mbplanner_ws/src/* ~/catkin_ws/src/
+    cd ~/catkin_ws
+    rm -r src/sim/rotors_simulator # install it as above Section 1-2.
   ```
 + Edit the code error
   + `catkin_ws/src/exploration/mbplanner/mbplanner_ros/planner_common/src/params.cpp`
   + Line 847 (in `MBParams::loadParams(std::string ns)`)
-  ```c++
-    // Add
-    return true;
-  ```
+    ```c++
+      // Add
+      return true;
+    ```
+  + Change the path of `Eigen` in `exploration/mbplanner_ros/planner_common/include/planner_common/visualizer.h`
+    ```c++
+      //#include <eigen3/Eigen/Dense>
+      #include <Eigen/Dense>
+    ```
 + Build
   ```shell
-  cd ~/catkin_ws
-  catkin build -DCMAKE_BUILD_TYPE=Release
+    cd ~/catkin_ws
+    catkin build -DCMAKE_BUILD_TYPE=Release
 
-  !Optionally, for use with OctoMap
-  catkin build -DUSE_OCTOMAP=1
+    !Optionally, for use with OctoMap
+    catkin build -DCMAKE_BUILD_TYPE=Release -DUSE_OCTOMAP=1
   ```
 + Trouble shooting for `planner_common`
   + When `opencv` path errors from `image_proc`,
     + Change the directory of `opencv` in `/opt/ros/melodic/share/image_proc/cmake/image_procConfig.cmake`
-  + When `Eigen` error,
-    + Change the path of `Eigen` in `exploration/mbplanner_ros/planner_common/include/planner_common/visualizer.h`
-      + From `<eigen3/Eigen/Dense>` to `<Eigen/Dense>`
-    + (Optional): Delete `eigen_catkin` and `eigen_checks`
 
 </details>
 
-#### 2-4. AEP
+#### 2-5. AEP
 <details><summary>Unfold to see</summary>
 
 + Install dependencies and build the code
@@ -208,35 +249,51 @@
 
 </details>
 
-#### 2. GBP2
+#### 2. GBP2 - it does not work for me yet
 <details><summary>Unfold to see</summary>
 
 + Run the demo
   ```shell
-  roslaunch gbplanner rmf_sim.launch
-  or
-  roslaunch gbplanner smb_sim.launch
+    roslaunch gbplanner rmf_sim.launch
+    or
+    roslaunch gbplanner smb_sim.launch
   ```
 
 </details>
 
-#### 3. MBP
+#### 3. GBP1
 <details><summary>Unfold to see</summary>
 
 + Check `map_config_file`, if it is `octomap` or `voxblox`
   ```xml
-  <arg name="map_config_file" default="$(arg octomap_config_file)"/>
-  <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
+    <arg name="map_config_file" default="$(arg octomap_config_file)"/>
+    <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
   ```
 + Run the demo
   ```shell
-  roslaunch mbplanner mbplanner_m100_sim.launch
-  rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
+    roslaunch gbplanner gbplanner_sim.launch
+    rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
   ```
 
 </details>
 
-#### 4. AEP
+#### 4. MBP
+<details><summary>Unfold to see</summary>
+
++ Check `map_config_file`, if it is `octomap` or `voxblox`
+  ```xml
+    <arg name="map_config_file" default="$(arg octomap_config_file)"/>
+    <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
+  ```
++ Run the demo
+  ```shell
+    roslaunch mbplanner mbplanner_m100_sim.launch
+    rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
+  ```
+
+</details>
+
+#### 5. AEP
 <details><summary>Unfold to see</summary>
 
 + Get config files and Gazebo models and build
