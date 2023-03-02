@@ -74,7 +74,7 @@
 + Get the ready-to-go docker image with `dockerfile`
   + make `dockerfile` with the contents:
     ```python
-    FROM ghcr.io/engcang/ubuntu18.04-nvidia-cudagl-11.4:exploration_sota
+    FROM ghcr.io/engcang/exploration_sota:v1.0
 
     # nvidia-container-runtime
     ENV NVIDIA_VISIBLE_DEVICES \
@@ -82,14 +82,6 @@
     ENV NVIDIA_DRIVER_CAPABILITIES \
         ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 
-    RUN apt-get update && apt-get -y install sudo
-
-    RUN adduser --disabled-password --gecos '' ubuntu
-    RUN adduser ubuntu sudo
-    RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-    RUN mkdir -p /home/ubuntu
-    RUN chown ubuntu /home/ubuntu
     USER ubuntu
     WORKDIR /home/ubuntu
     CMD /bin/bash
@@ -115,7 +107,7 @@
                --env=TERM=xterm-256color \
                --env=QT_X11_NO_MITSHM=1 \
                --net=host \
-               exploration
+               exploration:latest
                bash
     ```
   + Then run container as follows:
@@ -128,8 +120,50 @@
 
 ### 1. How to run
 
+<details><summary>Unfold to see</summary>
 
++ In the `docker`,
+  ```shell
+  cd ~/
+  ls #see .sh files there
 
+  # NBVP
+  ./nbvp.sh
+
+  # GBP
+  ./gbp.sh
+  !!Then, click "Start planner" in Rviz
+
+  # MBP
+  ./mbp.sh
+  !!Then, click "Start planner" in Rviz
+
+  # AEP
+  ./aep_gazebo.sh
+  ./aep_sh lidar #with lidar sensor
+  ./aep_sh rgbd #with rgbd sensor
+  rosservice call /mavros/cmd/arming "value: true"
+  rosservice call /mavros/set_mode "base_mode: 0
+custom_mode: 'OFFBOARD'"
+
+  # FUEL
+  ./fuel.sh
+  !!Start with "2D Nav Goal" in Rviz
+
+  # DSVP
+  ./dsvp_tare_sim.sh
+  ./dsvp.sh
+
+  # TARE
+  ./dsvp_tare_sim.sh
+  ./tare.sh
+
+  # OIPP
+  ./oipp.sh
+  rosservice call /planner/planner_node/toggle_running "data: true"
+  ```
+
+</details>
 
 ---
 
@@ -561,7 +595,8 @@
   roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
   # arming & offboarding
   rosservice call /mavros/cmd/arming "value: true"
-  rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
+  rosservice call /mavros/set_mode "base_mode: 0
+custom_mode: 'OFFBOARD'"
   ```
 
 </details>
@@ -641,7 +676,3 @@
   ```
 
 </details>
-
-
-
-<br>
