@@ -1,5 +1,6 @@
 # Exploration-algorithms
 + How to build, install and run open-source exploration algorithms
++ The repo provides ready-to-go `Docker` image
 
 <br>
 
@@ -35,7 +36,93 @@
 <br>
 
 
-# How to build and run
+# Option1: How to build and run with the ready-to-go `docker` image
+## Installation
+### 0. Install docker, get image, and generate container
+
+<details><summary>Unfold to see</summary>
+
++ If you do not have `docker` yet, install it
+  ```shell
+  curl -fsSL https://get.docker.com/ | sudo sh
+  sudo usermod -aG docker $USER
+
+  ##### NVIDIA-Docker, GPU
+  distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
+     && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
+     && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+  sudo apt-get update
+  sudo apt-get install -y nvidia-docker2
+  sudo systemctl restart docker
+  ```
+
++ Get the ready-to-go docker image with `dockerfile`
+  + make `dockerfile` with the contents:
+    ```python
+    FROM ghcr.io/engcang/ubuntu18.04-nvidia-cudagl-11.4:exploration_sota
+
+    # nvidia-container-runtime
+    ENV NVIDIA_VISIBLE_DEVICES \
+        ${NVIDIA_VISIBLE_DEVICES:-all}
+    ENV NVIDIA_DRIVER_CAPABILITIES \
+        ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+    RUN apt-get update && apt-get -y install sudo
+
+    RUN adduser --disabled-password --gecos '' ubuntu
+    RUN adduser ubuntu sudo
+    RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+    RUN mkdir -p /home/ubuntu
+    RUN chown ubuntu /home/ubuntu
+    USER ubuntu
+    WORKDIR /home/ubuntu
+    CMD /bin/bash
+    ```
+  + Then, make the image with `docker build -t exploration .`
++ Generate a docker conatiner with `run.sh` file
+  + make `run.sh` with the contents:
+    ```shell
+    #!/bin/sh
+
+    XSOCK=/tmp/.X11-unix
+    XAUTH=/tmp/.docker.xauth
+    touch $XAUTH
+    xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
+
+    docker run --runtime=nvidia --privileged --gpus all --rm -it \
+               --volume=$XSOCK:$XSOCK:rw \
+               --volume=$XAUTH:$XAUTH:rw \
+               --volume=$HOME:$HOME \
+               --shm-size=4gb \
+               --env="XAUTHORITY=${XAUTH}" \
+               --env="DISPLAY=${DISPLAY}" \
+               --env=TERM=xterm-256color \
+               --env=QT_X11_NO_MITSHM=1 \
+               --net=host \
+               exploration
+               bash
+    ```
+  + Then run container as follows:
+    ```shell
+    chmod +x run.sh
+    ./run.sh
+    ```
+
+</details>
+
+### 1. How to run
+
+
+
+
+---
+
+<br>
+<br>
+
+# Option2: How to build and run on your local computer
 ## Installation
 ### 0. Common dependencies
 + ROS: all
@@ -427,7 +514,7 @@
 
 </details>
 
-#### 5. AEP (no official demo provided)
+#### 5. AEP (no official demo provided, I added environments)
 <details><summary>Unfold to see</summary>
 
 + Get config files and Gazebo models and build
