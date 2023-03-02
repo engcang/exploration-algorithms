@@ -40,7 +40,7 @@
 ### 0. Common dependencies
 + ROS: all
 + OctoMap: NBVP, GBP, MBP, AEP, DSVP
-+ Voxblox: MBP, GBP
++ Voxblox: MBP, GBP, OIPP
 ### 1. Install simulator (required)
 <details><summary>Unfold to see</summary>
   
@@ -53,7 +53,7 @@
 #### 1-1. Install PX4-SITL - for AEP
 + Follow [here](https://github.com/engcang/mavros-gazebo-application/blob/master/README.md#installation)
 
-#### 1-2. Install RotorS Simulator - for NBVP, GBP, MBP
+#### 1-2. Install RotorS Simulator - for NBVP, GBP, MBP, OIPP
 + Because of the version issuse, I recommend to install as here
 + Get the code and build
   ```shell
@@ -67,7 +67,7 @@
     mv exploration-algorithms/rotors_description src/rotors_simulator/
     mv exploration-algorithms/rotors_gazebo src/rotors_simulator/
 
-    catkin build
+    catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 #### 1-3. Install Autonomous Exploration Development Environment - for DSVP, TARE
@@ -100,7 +100,7 @@
   wget -O CMakeLists.txt https://raw.githubusercontent.com/engcang/exploration-algorithms/main/nbvp/interface_nbvp_rotors/CMakeLists.txt
 
   cd ~/catkin_ws
-  catkin build
+  catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 </details>
@@ -228,7 +228,7 @@
     git clone https://github.com/catkin/catkin_simple.git
     git clone https://github.com/mseln/aeplanner.git
     cd ..
-    catkin build
+    catkin build -DCMAKE_BUILD_TYPE=Release
 
     ## If PCL errors in rpl_exploration,
     ## change compiler to newer than c++14
@@ -323,7 +323,7 @@
 + Build the code
   ```shell
     cd ~/catkin_ws
-    catkin build
+    catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 </details>
@@ -339,12 +339,35 @@
 
     sudo apt remove libflags* ### as it is using OR-Tools
 
-    catkin build
+    catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 </details>
 
 
+#### 2-9. OIPP - without Unreal, Gazebo instead (thanks to [Dongkyu Lee](https://github.com/dklee98))
+<details><summary>Unfold to see</summary>
+
++ Get dependencies
+  ```shell
+  sudo apt-get install python-wstool python-catkin-tools
+  sudo apt-get install ros-melodic-cmake-modules ros-melodic-control-toolbox ros-melodic-joy ros-melodic-octomap-ros ros-melodic-mavlink ros-melodic-geographic-msgs autoconf libyaml-cpp-dev protobuf-compiler libgoogle-glog-dev liblapacke-dev libgeographic-dev
+
+  cd ~/catkin_ws/src
+  git clone https://github.com/ethz-asl/mav_active_3d_planning
+  wstool init
+  wstool merge mav_active_3d_planning/mav_active_3d_planning_https.rosinstall
+  wstool update
+
+  rm -r rotors_simulator # install it as above Section 1-2.
+  rm -r yaml_cpp_catkin # prevent confliction
+
+  cd ..
+  catkin build -DCMAKE_BUILD_TYPE=Release
+  ```
+
+
+</details>
 
 <br>
 
@@ -404,7 +427,7 @@
 
 </details>
 
-#### 5. AEP
+#### 5. AEP (no official demo provided)
 <details><summary>Unfold to see</summary>
 
 + Get config files and Gazebo models and build
@@ -415,7 +438,7 @@
     mv exploration-algorithms/aep/rpl_exploraiton ~/catkin_ws/src/aeplanner/
 
     cd ~/catkin_ws
-    catkin build
+    catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 + Set Gazebo paths
   ```shell
@@ -497,6 +520,12 @@
 
 </details>
 
+#### 9. OIPP without Unreal, Gazebo instead (thanks to [Dongkyu Lee](https://github.com/dklee98))
+<details><summary>Unfold to see</summary>
+
+
+
+</details>
 
 
 
