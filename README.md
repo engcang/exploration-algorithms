@@ -523,7 +523,21 @@
 #### 9. OIPP without Unreal, Gazebo instead (thanks to [Dongkyu Lee](https://github.com/dklee98))
 <details><summary>Unfold to see</summary>
 
++ Get modified files for running without Unreal but Gazebo instead
+  ```shell
+    git clone https://github.com/engcang/exploration-algorithms --recursive
+    cd exploration-algorithms/oipp
+    mv active_3d_planning_app_reconstruction ~/catkin_ws/src/mav_active_3d_planning/
+    mv active_3d_planning_core ~/catkin_ws/src/mav_active_3d_planning/
 
+    cd ~/catkin_ws
+    catkin build -DCMAKE_BUILD_TYPE=Release
+  ```
++ Run demo
+  ```shell
+    roslaunch active_3d_planning_app_reconstruction no_unreal_run_experiment.launch
+    rosservice call /planner/planner_node/toggle_running "data: true"
+  ```
 
 </details>
 
