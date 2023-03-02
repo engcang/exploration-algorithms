@@ -1,6 +1,20 @@
 # Exploration-algorithms
 + How to build, install and run open-source exploration algorithms
 + The repo provides ready-to-go `Docker` image
++ Algorithms are:
+  + NBVP - Receding Horizon "Next-Best-View" Planner for 3D Exploration
+  + GBP - Graph-based Path Planning for Autonomous Robotic Exploration in Subterranean Environments
+  + GBP2 - Autonomous Teamed Exploration of Subterranean Environments using Legged and Aerial Robots
+  + MBP - Motion Primitives-based Path Planning for Fast and Agile Exploration using Aerial Robots
+  + AEP - Efficient Autonomous Exploration Planning of Large-Scale 3-D Environments
+  + UFOExplorer - UFOExplorer: Fast and Scalable Sampling-Based Exploration With a Graph-Based Planning Structure
+  + FUEL - FUEL: Fast UAV Exploration Using Incremental Frontier Structure and Hierarchical Planning
+  + DSVP - DSVP: Dual-Stage Viewpoint Planner for Rapid Exploration by Dynamic Expansion
+  + TARE - TARE: A Hierarchical Framework for Efficiently Exploring Complex 3D Environments
+  + RHEM - Uncertainty-aware receding horizon exploration and mapping using aerial robots
+  + GLocal - A Unified Approach for Autonomous Volumetric Exploration of Large Scale Environments Under Severe Odometry Drift
+  + OIPP - An Efficient Sampling-Based Method for Online Informative Path Planning in Unknown Environments
+  + PredRecon - PredRecon: A Prediction-boosted Planning Framework for Fast and High-quality Autonomous Aerial Reconstruction
 
 <br>
 
@@ -144,17 +158,17 @@
 + Because of the version issuse, I recommend to install as here
 + Get the code and build
   ```shell
-    cd ~/catkin_ws/src
-    git clone https://github.com/ethz-asl/rotors_simulator --recursive
-    rm -r rotors_simulator/rotors_description
-    rm -r rotors_simulator/rotors_gazebo
+  cd ~/catkin_ws/src
+  git clone https://github.com/ethz-asl/rotors_simulator --recursive
+  rm -r rotors_simulator/rotors_description
+  rm -r rotors_simulator/rotors_gazebo
 
-    cd ~/catkin_ws
-    git clone https://github.com/engcang/exploration-algorithms
-    mv exploration-algorithms/rotors_description src/rotors_simulator/
-    mv exploration-algorithms/rotors_gazebo src/rotors_simulator/
+  cd ~/catkin_ws
+  git clone https://github.com/engcang/exploration-algorithms
+  mv exploration-algorithms/rotors_description src/rotors_simulator/
+  mv exploration-algorithms/rotors_gazebo src/rotors_simulator/
 
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 #### 1-3. Install Autonomous Exploration Development Environment - for DSVP, TARE
@@ -226,17 +240,17 @@
 
 + Clone and build the code
   ```shell
-    cd ~/catkin_ws
-    git clone https://github.com/ntnu-arl/gbplanner_ws.git
-    cd gbplanner_ws
-    git checkout origin/melodic
-    wstool init
-    wstool merge packages_https.rosinstall
-    wstool update
+  cd ~/catkin_ws
+  git clone https://github.com/ntnu-arl/gbplanner_ws.git
+  cd gbplanner_ws
+  git checkout origin/melodic
+  wstool init
+  wstool merge packages_https.rosinstall
+  wstool update
 
-    mv gbplanner_ws/src/* ~/catkin_ws/src/
-    cd ~/catkin_ws
-    rm -r src/sim/rotors_simulator # install it as above Section 1-2.  
+  mv gbplanner_ws/src/* ~/catkin_ws/src/
+  cd ~/catkin_ws
+  rm -r src/sim/rotors_simulator # install it as above Section 1-2.  
   ```
 + Change the path of `Eigen` in
   + `gbplanner_ros/gbplanner/include/gbplanner/params.h`
@@ -246,16 +260,16 @@
   + `gbplanner_ros/gbplanner/include/gbplanner/map_manager.h`
   + `gbplanner_ros/gbplanner/include/gbplanner/rrg.h`
     ```c++
-      //#include <eigen3/Eigen/Dense>
-      #include <Eigen/Dense>
+    //#include <eigen3/Eigen/Dense>
+    #include <Eigen/Dense>
     ```
 + Build
   ```shell
-    cd ~/catkin_ws
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
 
-    !Optionally, for use with OctoMap
-    catkin build -DCMAKE_BUILD_TYPE=Release -DUSE_OCTOMAP=1
+  !Optionally, for use with OctoMap
+  catkin build -DCMAKE_BUILD_TYPE=Release -DUSE_OCTOMAP=1
   ```
 
 </details>
@@ -265,36 +279,36 @@
 
 + Get the code and build
   ```shell
-    git clone https://github.com/ntnu-arl/mbplanner_ws.git
-    cd mbplanner_ws
-    git checkout melodic-devel
-    wstool init
-    wstool merge packages_https.rosinstall
-    wstool update
+  git clone https://github.com/ntnu-arl/mbplanner_ws.git
+  cd mbplanner_ws
+  git checkout melodic-devel
+  wstool init
+  wstool merge packages_https.rosinstall
+  wstool update
 
-    mv mbplanner_ws/src/* ~/catkin_ws/src/
-    cd ~/catkin_ws
-    rm -r src/sim/rotors_simulator # install it as above Section 1-2.
+  mv mbplanner_ws/src/* ~/catkin_ws/src/
+  cd ~/catkin_ws
+  rm -r src/sim/rotors_simulator # install it as above Section 1-2.
   ```
 + Fix the code error
   + `exploration/mbplanner/mbplanner_ros/planner_common/src/params.cpp`
   + Line 847 (in `MBParams::loadParams(std::string ns)`)
     ```c++
-      // Add
-      return true;
+    // Add
+    return true;
     ```
 + Change the path of `Eigen` in `exploration/mbplanner_ros/planner_common/include/planner_common/visualizer.h`
   ```c++
-    //#include <eigen3/Eigen/Dense>
-    #include <Eigen/Dense>
+  //#include <eigen3/Eigen/Dense>
+  #include <Eigen/Dense>
   ```
 + Build
   ```shell
-    cd ~/catkin_ws
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
 
-    !Optionally, for use with OctoMap
-    catkin build -DCMAKE_BUILD_TYPE=Release -DUSE_OCTOMAP=1
+  !Optionally, for use with OctoMap
+  catkin build -DCMAKE_BUILD_TYPE=Release -DUSE_OCTOMAP=1
   ```
 + Trouble shooting for `planner_common`
   + When `opencv` path errors from `image_proc`,
@@ -307,19 +321,19 @@
 
 + Install dependencies and build the code
   ```shell
-    sudo apt install ros-melodic-octomap* 
-    sudo apt-get install libspatialindex-dev
-    python2 -m pip install rtree
+  sudo apt install ros-melodic-octomap* 
+  sudo apt-get install libspatialindex-dev
+  python2 -m pip install rtree
 
-    cd ~/catkin_ws/src/
-    git clone https://github.com/catkin/catkin_simple.git
-    git clone https://github.com/mseln/aeplanner.git
-    cd ..
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  cd ~/catkin_ws/src/
+  git clone https://github.com/catkin/catkin_simple.git
+  git clone https://github.com/mseln/aeplanner.git
+  cd ..
+  catkin build -DCMAKE_BUILD_TYPE=Release
 
-    ## If PCL errors in rpl_exploration,
-    ## change compiler to newer than c++14
-    ## in line 4 for CMakeLists.txt of rpl_exploration
+  ## If PCL errors in rpl_exploration,
+  ## change compiler to newer than c++14
+  ## in line 4 for CMakeLists.txt of rpl_exploration
   ```
   
 </details>
@@ -329,38 +343,38 @@
 
 + Install dependencies 
   ```shell
-    sudo apt-get install libarmadillo-dev
-    sudo apt-get install libdw-dev
-    git clone https://github.com/stevengj/nlopt.git
-    cd nlopt
-    mkdir build && cd build
-    cmake ..
-    make
-    sudo make install
+  sudo apt-get install libarmadillo-dev
+  sudo apt-get install libdw-dev
+  git clone https://github.com/stevengj/nlopt.git
+  cd nlopt
+  mkdir build && cd build
+  cmake ..
+  make
+  sudo make install
   ```
 + Get the code and change `CMakeLists.txt` of `bsline_opt`
   ```shell
-    cd ~/catkin_ws/src
-    git clone https://github.com/HKUST-Aerial-Robotics/FUEL.git
-    cd FUEL/fuel_planner/bspline_opt
-    wget -O CMakeLists.txt https://raw.githubusercontent.com/engcang/exploration-algorithms/main/fuel/CMakeLists.txt
+  cd ~/catkin_ws/src
+  git clone https://github.com/HKUST-Aerial-Robotics/FUEL.git
+  cd FUEL/fuel_planner/bspline_opt
+  wget -O CMakeLists.txt https://raw.githubusercontent.com/engcang/exploration-algorithms/main/fuel/CMakeLists.txt
   ```
 + Change compiler into `c++14` in all `CMakeLists.txt` files
   ```makefile
-    #set(CMAKE_CXX_FLAGS "-std=c++11")
-    set(CMAKE_CXX_FLAGS "-std=c++14")
+  #set(CMAKE_CXX_FLAGS "-std=c++11")
+  set(CMAKE_CXX_FLAGS "-std=c++14")
   ```
 + Fix the code error
   + `FUEL/fuel_planner/path_searching/src/kinodynamic_astar.cpp`
   + Line 654 (in `int KinodynamicAstar::timeToIndex(double time)`)
     ```c++
-      // Add
-      return idx;
+    // Add
+    return idx;
     ```
 + Build the code
   ```shell
-    cd ~/catkin_ws
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 </details>
@@ -370,47 +384,47 @@
 
 + Install dependencies and get the code
   ```shell
-    sudo apt install ros-melodic-octomap-ros libgoogle-glog-dev libgflags-dev
+  sudo apt install ros-melodic-octomap-ros libgoogle-glog-dev libgflags-dev
 
-    cd ~/catkin_ws/src
-    git clone https://github.com/HongbiaoZ/dsv_planner.git
-    cd dsv_planner
-    git checkout origin/melodic
+  cd ~/catkin_ws/src
+  git clone https://github.com/HongbiaoZ/dsv_planner.git
+  cd dsv_planner
+  git checkout origin/melodic
   ```
 + Fix `CMakeLists.txt` in `dsv_planner/src/volumetric_mapping/octomap_world`
   ```makefile
-    #target_link_libraries(octomap_manager ${PROJECT_NAME} glog)
-    target_link_libraries(octomap_manager ${PROJECT_NAME} glog gflags)
+  #target_link_libraries(octomap_manager ${PROJECT_NAME} glog)
+  target_link_libraries(octomap_manager ${PROJECT_NAME} glog gflags)
   ```
 + Fix `CMakeLists.txt` in `dsv_planner/src/dsvplanner/dsvplanner`
   ```makefile
-    find_package(catkin REQUIRED COMPONENTS
-      roscpp
-      geometry_msgs
-      visualization_msgs
-      message_generation
-      octomap_world
-      tf
-      kdtree
-      std_msgs
-      nav_msgs
-      misc_utils
-      graph_planner #ADDED
-      graph_utils
-    )
+  find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    geometry_msgs
+    visualization_msgs
+    message_generation
+    octomap_world
+    tf
+    kdtree
+    std_msgs
+    nav_msgs
+    misc_utils
+    graph_planner #ADDED
+    graph_utils
+  )
   ```
 + Change the path of `Eigen` in
   + `dsv_planner/src/dsvplanner/dsvplanner/include/dsvplanner/drrt_base.h`
   + `dsv_planner/src/dsvplanner/dsvplanner/src/drrtp.cpp`
   + `dsv_planner/src/dsvplanner/dsvplanner/src/drrtp_node.cpp`
     ```c++
-      //#include <eigen3/Eigen/Dense>
-      #include <Eigen/Dense>
+    //#include <eigen3/Eigen/Dense>
+    #include <Eigen/Dense>
     ```
 + Build the code
   ```shell
-    cd ~/catkin_ws
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 </details>
@@ -420,13 +434,13 @@
 
 + Get and build the code
   ```shell
-    cd ~/catkin_ws/src
-    git clone https://github.com/caochao39/tare_planner.git
-    cd ..
+  cd ~/catkin_ws/src
+  git clone https://github.com/caochao39/tare_planner.git
+  cd ..
 
-    sudo apt remove libflags* ### as it is using OR-Tools
+  sudo apt remove libflags* ### as it is using OR-Tools
 
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 
 </details>
@@ -465,7 +479,7 @@
 + **Important:** Put `<plugin name="ros_interface_plugin" filename="librotors_gazebo_ros_interface_plugin.so"/>` into Gazebo `.world` file
 + Run the demo
   ```shell
-    roslaunch interface_nbvp_rotors flat_exploration.launch
+  roslaunch interface_nbvp_rotors flat_exploration.launch
   ```
 
 </details>
@@ -475,9 +489,9 @@
 
 + Run the demo
   ```shell
-    roslaunch gbplanner rmf_sim.launch
-    or
-    roslaunch gbplanner smb_sim.launch
+  roslaunch gbplanner rmf_sim.launch
+  or
+  roslaunch gbplanner smb_sim.launch
   ```
 
 </details>
@@ -487,13 +501,13 @@
 
 + Check `map_config_file`, if it is `octomap` or `voxblox`
   ```xml
-    <arg name="map_config_file" default="$(arg octomap_config_file)"/>
-    <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
+  <arg name="map_config_file" default="$(arg octomap_config_file)"/>
+  <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
   ```
 + Run the demo
   ```shell
-    roslaunch gbplanner gbplanner_sim.launch
-    rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
+  roslaunch gbplanner gbplanner_sim.launch
+  rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
   ```
 
 </details>
@@ -503,13 +517,13 @@
 
 + Check `map_config_file`, if it is `octomap` or `voxblox`
   ```xml
-    <arg name="map_config_file" default="$(arg octomap_config_file)"/>
-    <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
+  <arg name="map_config_file" default="$(arg octomap_config_file)"/>
+  <arg name="map_config_file" default="$(arg voxblox_config_file)"/>
   ```
 + Run the demo
   ```shell
-    roslaunch mbplanner mbplanner_m100_sim.launch
-    rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
+  roslaunch mbplanner mbplanner_m100_sim.launch
+  rosservice call /planner_control_interface/std_srvs/automatic_planning "{}" 
   ```
 
 </details>
@@ -519,35 +533,35 @@
 
 + Get config files and Gazebo models and build
   ```shell
-    git clone https://github.com/engcang/exploration-algorithms --recursive
-    mv exploration-algorithms/aep/ouster_gazebo_plugins ~/catkin_ws/src/
-    mv exploration-algorithms/aep/gazebo_env ~/catkin_ws/src/
-    mv exploration-algorithms/aep/rpl_exploraiton ~/catkin_ws/src/aeplanner/
+  git clone https://github.com/engcang/exploration-algorithms --recursive
+  mv exploration-algorithms/aep/ouster_gazebo_plugins ~/catkin_ws/src/
+  mv exploration-algorithms/aep/gazebo_env ~/catkin_ws/src/
+  mv exploration-algorithms/aep/rpl_exploraiton ~/catkin_ws/src/aeplanner/
 
-    cd ~/catkin_ws
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 + Set Gazebo paths
   ```shell
-    cd ~/catkin_ws/src/gazebo_env/gazebo_maps/reconstruction
-    tar -xf recon3.tar.xz
+  cd ~/catkin_ws/src/gazebo_env/gazebo_maps/reconstruction
+  tar -xf recon3.tar.xz
 
-    gedit ~/.bashrc
+  gedit ~/.bashrc
 
-    !Then, edit GAZEBO_PLUGIN_PATH and GAZEBO_MODEL_PATH!
+  !Then, edit GAZEBO_PLUGIN_PATH and GAZEBO_MODEL_PATH!
 
-    export GAZEBO_PLUGIN_PATH=:/home/$(whoami)/PX4-Autopilot/build/px4_sitl_default/build_gazebo:$GAZEBO_PLUGIN_PATH
-    export GAZEBO_MODEL_PATH=/home/$(whoami)/catkin_ws/src/gazebo_env/drone_models:/home/$(whoami)/catkin_ws/src/gazebo_env/gazebo_maps/reconstruction:/home/$(whoami)/PX4-Autopilot/Tools/sitl_gazebo/models:$GAZEBO_MODEL_PATH
+  export GAZEBO_PLUGIN_PATH=:/home/$(whoami)/PX4-Autopilot/build/px4_sitl_default/build_gazebo:$GAZEBO_PLUGIN_PATH
+  export GAZEBO_MODEL_PATH=/home/$(whoami)/catkin_ws/src/gazebo_env/drone_models:/home/$(whoami)/catkin_ws/src/gazebo_env/gazebo_maps/reconstruction:/home/$(whoami)/PX4-Autopilot/Tools/sitl_gazebo/models:$GAZEBO_MODEL_PATH
   ```
 + Run the demo
   ```shell
-    roslaunch rpl_exploration px4_sitl_gazebo.launch
-    # choose sensor
-    roslaunch rpl_exploration rpl_exploration.launch sensor:=lidar
-    roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
-    # arming & offboarding
-    rosservice call /mavros/cmd/arming "value: true"
-    rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
+  roslaunch rpl_exploration px4_sitl_gazebo.launch
+  # choose sensor
+  roslaunch rpl_exploration rpl_exploration.launch sensor:=lidar
+  roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
+  # arming & offboarding
+  rosservice call /mavros/cmd/arming "value: true"
+  rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
   ```
 
 </details>
@@ -558,10 +572,10 @@
 
 + Run the demo
   ```shell
-    roslaunch exploration_manager rviz.launch
-    roslaunch exploration_manager exploration.launch
-    !Start with 2D Nav Goal in Rviz
+  roslaunch exploration_manager rviz.launch
+  roslaunch exploration_manager exploration.launch
   ```
++ Start with `2D Nav Goal` in Rviz
 
 </details>
 
@@ -570,8 +584,8 @@
 
 + Run the demo
   ```shell
-    roslaunch vehicle_simulator system_garage.launch
-    roslaunch dsvp_launch explore_garage.launch
+  roslaunch vehicle_simulator system_garage.launch
+  roslaunch dsvp_launch explore_garage.launch
   ```
 
 </details>
@@ -582,27 +596,27 @@
 
 + Run the demo
   ```shell
-    roslaunch vehicle_simulator system_garage.launch
-    roslaunch tare_planner explore_garage.launch
+  roslaunch vehicle_simulator system_garage.launch
+  roslaunch tare_planner explore_garage.launch
   ```
 + Trouble shooting
   + When `symbol lookup error: tare_planner/or-tools/lib/libortools.so: undefined symbol: _ZN6gflags14FlagRegistererC1IiEEPKcS3_S3_PT_S5_`
     + Check if `libortools.so` is referring the right libraries
     + If reffering wrong, delete or rename the wrong libraries temporarily
       ```shell
-        ldd tare_planner/or-tools/lib/ldd libortool.so
+      ldd tare_planner/or-tools/lib/ldd libortool.so
 
-        ! wrong output
-        libgflags.so.2.2 => sota_ws/devel/lib/libgflags.so.2.2 (0x00007f036830d000)
-        libglog.so.0 => sota_ws/devel/lib/libglog.so.0 (0x00007f03680dc000)
+      ! wrong output
+      libgflags.so.2.2 => sota_ws/devel/lib/libgflags.so.2.2 (0x00007f036830d000)
+      libglog.so.0 => sota_ws/devel/lib/libglog.so.0 (0x00007f03680dc000)
 
-        ! after delete/rename wrong files
-        sudo ldconfig
-        ldd tare_planner/or-tools/lib/ldd libortool.so        
-        
-        ! correct output
-        libgflags.so.2.2 => tare_planner/src/tare_planner/or-tools/lib/./libgflags.so.2.2 (0x00007fe6749e0000)
-        libglog.so.0 => tare_planner/src/tare_planner/or-tools/lib/./libglog.so.0 (0x00007fe6747a3000)
+      ! after delete/rename wrong files
+      sudo ldconfig
+      ldd tare_planner/or-tools/lib/ldd libortool.so        
+      
+      ! correct output
+      libgflags.so.2.2 => tare_planner/src/tare_planner/or-tools/lib/./libgflags.so.2.2 (0x00007fe6749e0000)
+      libglog.so.0 => tare_planner/src/tare_planner/or-tools/lib/./libglog.so.0 (0x00007fe6747a3000)
       ```
 
 </details>
@@ -612,18 +626,18 @@
 
 + Get modified files for running without Unreal but Gazebo instead
   ```shell
-    git clone https://github.com/engcang/exploration-algorithms --recursive
-    cd exploration-algorithms/oipp
-    mv active_3d_planning_app_reconstruction ~/catkin_ws/src/mav_active_3d_planning/
-    mv active_3d_planning_core ~/catkin_ws/src/mav_active_3d_planning/
+  git clone https://github.com/engcang/exploration-algorithms --recursive
+  cd exploration-algorithms/oipp
+  mv active_3d_planning_app_reconstruction ~/catkin_ws/src/mav_active_3d_planning/
+  mv active_3d_planning_core ~/catkin_ws/src/mav_active_3d_planning/
 
-    cd ~/catkin_ws
-    catkin build -DCMAKE_BUILD_TYPE=Release
+  cd ~/catkin_ws
+  catkin build -DCMAKE_BUILD_TYPE=Release
   ```
 + Run demo
   ```shell
-    roslaunch active_3d_planning_app_reconstruction no_unreal_run_experiment.launch
-    rosservice call /planner/planner_node/toggle_running "data: true"
+  roslaunch active_3d_planning_app_reconstruction no_unreal_run_experiment.launch
+  rosservice call /planner/planner_node/toggle_running "data: true"
   ```
 
 </details>
