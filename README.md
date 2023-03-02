@@ -143,8 +143,7 @@
   ./aep_sh lidar #with lidar sensor
   ./aep_sh rgbd #with rgbd sensor
   rosservice call /mavros/cmd/arming "value: true"
-  rosservice call /mavros/set_mode "base_mode: 0
-custom_mode: 'OFFBOARD'"
+  rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
 
   # FUEL
   ./fuel.sh
@@ -595,8 +594,7 @@ custom_mode: 'OFFBOARD'"
   roslaunch rpl_exploration rpl_exploration.launch sensor:=rgbd
   # arming & offboarding
   rosservice call /mavros/cmd/arming "value: true"
-  rosservice call /mavros/set_mode "base_mode: 0
-custom_mode: 'OFFBOARD'"
+  rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
   ```
 
 </details>
