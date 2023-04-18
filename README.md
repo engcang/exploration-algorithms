@@ -140,8 +140,8 @@
 
   # AEP
   ./aep_gazebo.sh
-  ./aep_sh lidar #with lidar sensor
-  ./aep_sh rgbd #with rgbd sensor
+  ./aep.sh lidar #with lidar sensor
+  ./aep.sh rgbd #with rgbd sensor
   rosservice call /mavros/cmd/arming "value: true"
   rosservice call /mavros/set_mode "base_mode: 0 custom_mode: 'OFFBOARD'"
 
